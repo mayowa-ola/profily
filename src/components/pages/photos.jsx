@@ -5,6 +5,8 @@ import {Link} from 'react-router-dom';
 import {updateProfile, uploadPhotos, getUser} from '../../services/userServices';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { css } from "@emotion/core";
+import DotLoader from "react-spinners/DotLoader";
 
 class Photos extends Form {
     state = { 
@@ -12,6 +14,7 @@ class Photos extends Form {
         user: '',
         picture : true,
         form : false,
+        loading: false
     }
 
     
@@ -19,10 +22,8 @@ class Photos extends Form {
         try{
             const jwt = localStorage.getItem('token');
             let token = jwtDecode(jwt);
-            // console.log(user)
             let{data:user} =  await getUser(token._id);
             this.setState({user});
-            console.log('user',this.state.user)
         }
         catch(ex){
             console.log(ex);
@@ -33,32 +34,36 @@ class Photos extends Form {
     handleClick = (e) =>{
         e.preventDefault();
         this.setState({picture : false,form : true})
-        console.log('yes');
     }
     
 
     handleSubmit = async(e) => {
         e.preventDefault();
         try{
+            this.setState({loading:true})
             const data = new FormData();
-            data.append('photos', this.state.data['photos']);
+            for(let x = 0; x < this.state.data.photos.length; x++) {
+                data.append('photos', this.state.data.photos[x])
+            }
             const response = await uploadPhotos(data, this.state.user._id);
+            
             if(response.status === 200) {
                 toast.success('Photos uploaded successfully');
-                // const that =this;
+                this.setState({loading:false})
                 setTimeout(function(){ 
                     window.location.reload(false);
-                }, 3000);
+                }, 1000);
             }
         }
         catch(ex) {
-
+            this.setState({loading:false});
+            console.log(ex);
         }
     }
 
     onChangeHandler=event=>{
         const data = {...this.state.data}
-        data['photos'] = event.target.files[0]
+        data['photos'] = event.target.files
         this.setState({
             data,
             loaded: 0,
@@ -66,24 +71,15 @@ class Photos extends Form {
     }
 
 
-    doSubmit = async () => {
-        //call the server and redirect the user to another page.
-        try{
-            
-            const response = await updateProfile(this.state.data, this.props.user._id);
-            if(response.status === 200) {
-                toast.success('Your profile was updated successfully');
-            }
-        }
-        catch(ex){
-            toast.error(ex.response.data);  
-        }
-            
-    }
 
     render() { 
         const {photos} = this.state.user;
-        console.log('photos',this.state.user.photos);
+        const {loading} = this.state;
+        const override = css`
+        display: block;
+        margin: 0 auto;
+        border-color: red;
+        `;
         return ( 
             <div>
                 <div className="form-group">
@@ -106,13 +102,19 @@ class Photos extends Form {
                     <h3>You haven't uploaded any photos yet, please click the button above</h3>}
                 </div>}
                 {this.state.form && <form onSubmit={this.handleSubmit} encType="multipart/form-data">              
-                    <div className="form-group" >
-                        <p>Upload New Photos</p>
-                        {/* <label className="custom-file-label" htmlFor="photos">Upload New Photos</label> */}
-                        <br/>
-                        <input type="file" name="photos" onChange={this.onChangeHandler}/>
-                        <br/>
-                    </div>
+                     {loading?
+                     <div className="sweet-loading">
+                        <DotLoader
+                        css={override}
+                        size={150}
+                        color={"#569BC7"}
+                        loading={this.state.loading}
+                        />
+                    </div> :
+                     <div class="form-group files">
+                        <label>Upload Your File </label>
+                        <input type="file" name="photos" onChange={this.onChangeHandler} class="form-control" multiple/>
+                    </div>}
                     {this.renderButton( 'UPLOAD')}
                 </form>}
 

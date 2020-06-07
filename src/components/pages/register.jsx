@@ -106,7 +106,7 @@ class Register extends CustomForm {
                     loading={this.state.loading}
                     />
                 </div> :
-                <div className="">
+                <div style={{margin: "0 auto", width:"50%"}}>
                     <form onSubmit={this.handleSubmit} >              
                         {this.renderInput('name', 'Name', '', 'fa fa-user')}
                         {this.renderInput('email', 'Email Address', 'email', 'fa fa-envelope')}
@@ -119,7 +119,7 @@ class Register extends CustomForm {
                 <div className="text-center">
                     <h3>OR</h3>
                     <div className="text-center">
-                        <Link onclick={this.autheticateWithGoogle} className="btn btn-info mr-4">SIGN IN WITH GOOGLE</Link>
+                        {/* <Link onclick={this.autheticateWithGoogle} className="btn btn-info mr-4">SIGN IN WITH GOOGLE</Link> */}
                         <Link to="/login"  className="btn btn-danger">LOGIN</Link>
                     </div>
                 </div>

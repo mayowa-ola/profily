@@ -2,8 +2,8 @@ import React  from 'react';
 import Form from '../form/form';
 import Joi from 'joi-browser';
 import jwtDecode from 'jwt-decode';
-import {withRouter, Link} from 'react-router-dom';
-import {updateProfile, getUser} from '../../services/userServices';
+import {Link} from 'react-router-dom';
+import {updateProfile} from '../../services/userServices';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -11,7 +11,8 @@ class Profile extends Form {
     state = { 
         data: {name:'', email:'',},
         errors: {},
-        user:''
+        user:'',
+        form: false
     }
 
     
@@ -54,21 +55,25 @@ class Profile extends Form {
     }
 
     render() { 
+        const {form} = this.state;
         return ( 
             <div>
                 <div className="form-group">
                     <ToastContainer />
                 </div>
                 <div className="d-flex justify-content-between align-items-center">
-                    <h3 className="mt-4 mb-4 ">My Profile</h3>
+                    <h3 className="mt-4 mb-4 text-skyBlue">My Profile</h3>
                     <Link to="/logout"  className="btn btn-danger ">LOG OUT</Link>
                 </div>
                 <div className="clear-fix"></div>
-                <form onSubmit={this.handleSubmit} encType="multipart/form-data">              
+                <h4><i className='fa fa-user text-skyBlue'></i> {this.state.user.name}</h4>
+                <h4><i className='fa fa-envelope text-skyBlue'></i> {this.state.user.email}</h4>
+                <button to="" onClick={()=> this.setState({form:true})}  className="btn btn-danger ">Update Profile</button>
+                {form && <form onSubmit={this.handleSubmit} encType="multipart/form-data">              
                     {this.renderInput('name', 'Name', '', 'fa fa-user')}
                     {this.renderInput('email', 'Email Address','email', 'fa fa-envelope')}
                     {this.renderButton('UPDATE')}
-                </form>
+                </form>}
 
             </div>
          );

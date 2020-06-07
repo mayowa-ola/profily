@@ -103,7 +103,7 @@ class Login extends CustomForm {
                     loading={this.state.loading}
                     />
                 </div> :
-                <div className="">
+                <div style={{margin: "0 auto", width:"50%"}}>
                     <form onSubmit={this.handleSubmit} >              
                         {this.renderInput('email', 'Email Address', 'email', 'fa fa-envelope')}
                         {this.renderInput('password', 'Password', 'password', 'fa fa-lock')}
@@ -114,7 +114,7 @@ class Login extends CustomForm {
                 <div className="text-center">
                     <h3>OR</h3>
                     <div className="text-center">
-                        <Link to="" onClick={this.autheticateWithGoogle} className="btn btn-info mr-4">SIGN IN WITH GOOGLE</Link>
+                        {/* <Link to="" onClick={this.autheticateWithGoogle} className="btn btn-info mr-4">SIGN IN WITH GOOGLE</Link> */}
                         <Link to="/register"  className="btn btn-danger">REGISTER</Link>
                     </div>
                 </div>
