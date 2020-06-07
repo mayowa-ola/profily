@@ -15,7 +15,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 class Register extends CustomForm {
     state = { 
-        data: {email:'', password:'', name:''},
+        data: {email:'', password:'', name:'', confirmPassword:''},
         errors: {},
         loading:''
     }
@@ -24,7 +24,14 @@ class Register extends CustomForm {
     schema = {
         email: Joi.string().required().min(3),  
         password: Joi.string().required().min(3),
-        name:  Joi.string().required().min(3)
+        name:  Joi.string().required().min(3),
+        confirmPassword: Joi.any().valid(Joi.ref('password')).required().options({
+            language: {
+              any: {
+                allowOnly: '!!Passwords do not match',
+              }
+            } 
+          })
     }
 
     autheticateWithGoogle = async () => {
@@ -99,7 +106,7 @@ class Register extends CustomForm {
                     loading={this.state.loading}
                     />
                 </div> :
-                <div className="d-flex justify-content-center">
+                <div className="">
                     <form onSubmit={this.handleSubmit} >              
                         {this.renderInput('name', 'Name', '', 'fa fa-user')}
                         {this.renderInput('email', 'Email Address', 'email', 'fa fa-envelope')}

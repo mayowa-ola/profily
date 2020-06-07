@@ -3,8 +3,8 @@ import { toast } from "react-toastify";
 import logger from './logService';
 
 // axios.defaults.baseURL = process.env.REACT_APP_API_URL;
-// axios.defaults.baseURL = 'https://profily-backend.herokuapp.com/api';
-axios.defaults.baseURL = 'http://localhost:3001/api';
+axios.defaults.baseURL = 'https://profily-backend.herokuapp.com/api';
+// axios.defaults.baseURL = 'http://localhost:3001/api';
  
 //to set the header for all request
 axios.interceptors.response.use(null, error =>{
