@@ -11,6 +11,7 @@ class Profile extends Form {
     state = { 
         data: {name:'', email:'',},
         errors: {},
+        user:''
     }
 
     
@@ -22,10 +23,8 @@ class Profile extends Form {
     async componentDidMount() {
         try{
             const jwt = localStorage.getItem('token');
-            const user = await jwtDecode(jwt);
-            console.log('das',user._id);
-            const {data} =  await getUser(user._id);
-            // this.setState({data: this.mapUserToModel(data)});
+            const user = jwtDecode(jwt);
+            this.setState({data: this.mapUserToModel(user),user});
         }
         catch(ex){
             console.log(ex);
@@ -34,17 +33,16 @@ class Profile extends Form {
 
     mapUserToModel(user){
         return {
-            name:user.surname,
+            name:user.name,
             email: user.email,
         }
     }
 
 
     doSubmit = async () => {
-        //call the server and redirect the user to another page.
         try{
             
-            const response = await updateProfile(this.state.data, this.props.user._id);
+            const response = await updateProfile(this.state.data, this.state.user._id);
             if(response.status === 200) {
                 toast.success('Your profile was updated successfully');
             }
@@ -56,7 +54,6 @@ class Profile extends Form {
     }
 
     render() { 
-        const {user} = this.props;
         return ( 
             <div>
                 <div className="form-group">

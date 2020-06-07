@@ -21,9 +21,14 @@ export function userRegister(user){
         });   
 }
 
-export function getUser(user, userId){
+export function getUser(userId){
         return http.get(`${apiEndPoint}/${userId}`);   
 }
+
+export function uploadPhotos(user, userId){
+    return http.put(`${apiEndPoint}/upload/${userId}`, user,{});   
+}
+
 export function updateProfile(user, userId){
         return http.get(`${apiEndPoint}/${userId}`);   
 }

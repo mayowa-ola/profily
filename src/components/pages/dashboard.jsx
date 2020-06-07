@@ -13,7 +13,7 @@ class Dashboard extends Component {
     
 
     render() {
-        const {user} = this.props.location ? this.props.location : this.propsr; 
+        const {user} = this.props.location ? this.props.location : this.props; 
         return ( 
             <Container>
                 <NavBar/>
