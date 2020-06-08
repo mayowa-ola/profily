@@ -6,6 +6,7 @@ import Dashboard from './components/pages/dashboard';
 import Register from './components/pages/register';
 import Login from './components/pages/login';
 import LogOut from './components/logout';
+import ProtectedRoute from './components/protectedRoute';
 
 
 class App extends Component {
@@ -26,7 +27,7 @@ class App extends Component {
   return (
           <React.Fragment>
             <Switch>
-              <Route path="/dashboard" render={(props)=><Dashboard {...props} user={this.state.user}/>} />
+              <ProtectedRoute path="/dashboard" render={(props)=><Dashboard {...props} user={this.state.user}/>} />
               <Route path="/logout" component={LogOut}/>
               <Route path="/register" component={Register}/>
               <Route path="/" component={Login}/>

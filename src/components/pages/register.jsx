@@ -113,16 +113,10 @@ class Register extends CustomForm {
                         {this.renderInput('password', 'Password', 'password', 'fa fa-lock')}
                         {this.renderInput('confirmPassword', 'Confirm Password', 'password', 'fa fa-lock')}
                         {this.renderButton('REGISTER')}
+                        <p>Already have an account? <Link to="/">Log In</Link></p>
                     </form>
                 </div>
                 }
-                <div className="text-center">
-                    <h3>OR</h3>
-                    <div className="text-center">
-                        {/* <Link onclick={this.autheticateWithGoogle} className="btn btn-info mr-4">SIGN IN WITH GOOGLE</Link> */}
-                        <Link to="/login"  className="btn btn-danger">LOGIN</Link>
-                    </div>
-                </div>
             </Container>
             
          );

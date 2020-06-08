@@ -16,7 +16,6 @@ class Photos extends Form {
         form : false,
         loading: false
     }
-
     
     async componentDidMount() {
         try{
